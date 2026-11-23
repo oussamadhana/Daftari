@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>دفتري الرقمي | Daftari Digital</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <style>
     :root {
       --bg: #070e1b;
@@ -46,35 +45,34 @@
 
     .hidden { display: none !important; }
 
-    /* واجهات القدوم (Onboarding) */
     .welcome-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 28px 20px;
-      margin-top: 20px;
+      padding: 26px 20px;
+      margin-top: 16px;
       text-align: center;
-      box-shadow: 0 22px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.5);
     }
 
     .welcome-icon {
-      width: 76px;
-      height: 76px;
-      margin: 0 auto 16px;
-      border-radius: 22px;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 14px;
+      border-radius: 20px;
       background: linear-gradient(135deg, #1d4ed8, #0f294a);
       border: 1px solid rgba(255,255,255,0.2);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 34px;
+      font-size: 32px;
     }
 
     .dots {
       display: flex;
       justify-content: center;
       gap: 7px;
-      margin: 18px 0;
+      margin: 16px 0;
     }
 
     .dot {
@@ -90,7 +88,6 @@
       background: #3b82f6;
     }
 
-    /* شاشة اختيار الفضاء (الشعب / الموظف) */
     .role-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -102,9 +99,8 @@
       background: var(--surface-2);
       border: 2px solid var(--border);
       border-radius: 16px;
-      padding: 16px 10px;
+      padding: 15px 10px;
       cursor: pointer;
-      transition: 0.2s;
     }
 
     .role-card.active {
@@ -130,7 +126,6 @@
       margin-bottom: 12px;
     }
 
-    /* الشريط العلوي */
     .header {
       display: flex;
       justify-content: space-between;
@@ -142,7 +137,7 @@
       gap: 8px;
     }
 
-    .header h2 { font-size: 1rem; }
+    .header h2 { font-size: 0.98rem; }
     .header span { font-size: 0.72rem; color: var(--muted); }
 
     .header-actions {
@@ -171,7 +166,6 @@
       cursor: pointer;
     }
 
-    /* شريط الحالة (Offline + Frozen) */
     .status-strip {
       display: flex;
       justify-content: space-between;
@@ -180,7 +174,7 @@
       border: 1px solid rgba(34, 197, 94, 0.3);
       padding: 7px 12px;
       border-radius: 11px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: #86efac;
     }
 
@@ -190,7 +184,6 @@
       color: #fca5a5;
     }
 
-    /* التبويبات */
     .tabs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -207,7 +200,7 @@
       color: var(--muted);
       padding: 8px 4px;
       border-radius: 10px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -217,7 +210,6 @@
       color: #fff;
     }
 
-    /* البطاقة الذكية */
     .tier-switcher {
       display: flex;
       gap: 6px;
@@ -294,7 +286,6 @@
       border-radius: 8px;
     }
 
-    /* اللوحات والأزرار */
     .panel {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -384,4 +375,472 @@
       color: #cbd5e1;
       border: 1px solid var(--border);
       padding: 7px 9px;
-      border-radius: 9
+      border-radius: 9px;
+      font-size: 0.74rem;
+      cursor: pointer;
+    }
+
+    .doc-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .doc-card.featured {
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .doc-title { font-weight: 700; font-size: 0.9rem; }
+    .doc-sub { font-size: 0.74rem; color: var(--muted); margin-top: 3px; }
+
+    .badge-ok {
+      background: rgba(34, 197, 94, 0.14);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      white-space: nowrap;
+    }
+
+    .badge-warn {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      white-space: nowrap;
+    }
+
+    .doc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .gov-link-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qr-code-box {
+      background: #fff;
+      color: #0f172a;
+      padding: 12px;
+      border-radius: 14px;
+      width: fit-content;
+      margin: 10px auto;
+      border: 2px solid #cbd5e1;
+      font-family: monospace;
+      font-size: 0.78rem;
+      font-weight: bold;
+    }
+
+    .verify-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: #fff;
+      margin: 6px 0;
+      font-size: 0.84rem;
+    }
+
+    .result-box {
+      border-radius: 14px;
+      padding: 13px;
+      margin-top: 10px;
+      font-size: 0.83rem;
+      line-height: 1.7;
+    }
+
+    .result-ok {
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      color: #dcfce7;
+    }
+
+    .result-err {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.45);
+      color: #fecaca;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .official-paper {
+      background: #fdfbf4;
+      color: #111827;
+      border: 6px double #7f1d1d;
+      outline: 2px solid #14532d;
+      outline-offset: -11px;
+      padding: 18px 16px;
+      border-radius: 4px;
+      text-align: right;
+      line-height: 1.75;
+      font-size: 0.85rem;
+    }
+
+    .paper-header {
+      text-align: center;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .paper-title {
+      text-align: center;
+      color: #991b1b;
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin: 8px 0;
+    }
+
+    .paper-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.76rem;
+      font-weight: bold;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    .paper-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed #9ca3af;
+      font-size: 0.74rem;
+    }
+
+    .digital-stamp {
+      border: 2px solid #15803d;
+      color: #15803d;
+      padding: 6px 9px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.7rem;
+      background: rgba(22, 163, 74, 0.06);
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printableArea, #printableArea * { visibility: visible; }
+      #printableArea {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        background: #fff;
+        padding: 15mm;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <div id="onboardingScreen" class="welcome-card">
+      <div id="obIcon" class="welcome-icon">🛡️</div>
+      <h1 id="obTitle" style="font-size:1.35rem; margin-bottom:8px;">مرحباً بك في دفتري الرقمي</h1>
+      <p id="obDesc" style="color:#cbd5e1; font-size:0.88rem; line-height:1.65;">
+        محفظتك الرقمية الموحدة وبطاقتك الذكية لحفظ وثائقك الرسمية، حمايتها من الضياع، وتسهيل معاملاتك اليومية دون تكرار الأوراق.
+      </p>
+
+      <div class="dots">
+        <span class="dot active" id="dot0"></span>
+        <span class="dot" id="dot1"></span>
+        <span class="dot" id="dot2"></span>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button id="obNextBtn" class="btn-primary" style="flex:1; padding:12px; font-size:0.92rem;">التالي ←</button>
+        <button id="obSkipBtn" class="btn-outline" style="padding:12px;">تخطي</button>
+      </div>
+    </div>
+
+    <div id="portalScreen" class="welcome-card hidden">
+      <div class="welcome-icon" style="width:60px; height:60px; font-size:26px;">🔐</div>
+      <h2 style="font-size:1.25rem;">اختر واجهة الدخول</h2>
+      <p style="color:var(--muted); font-size:0.8rem; margin-top:4px;">كل واجهة مستقلة بصلاحياتها وخدماتها</p>
+
+      <div class="role-grid">
+        <div id="selectUserRole" class="role-card active">
+          <div style="font-size:26px; margin-bottom:4px;">👤</div>
+          <div style="font-weight:bold; font-size:0.9rem;">فضاء المواطن / الشعب</div>
+          <div style="font-size:0.72rem; color:var(--muted); margin-top:3px;">المحفظة والبطاقة (1234)</div>
+        </div>
+        <div id="selectStaffRole" class="role-card staff">
+          <div style="font-size:26px; margin-bottom:4px;">🏛️</div>
+          <div style="font-weight:bold; font-size:0.9rem;">فضاء الموظف / الإدارة</div>
+          <div style="font-size:0.72rem; color:var(--muted); margin-top:3px;">التحقق والاستقبال (0000)</div>
+        </div>
+      </div>
+
+      <input id="pinInput" class="pin-input" type="password" maxlength="4" value="1234" />
+      <button id="loginBtn" class="btn-primary" style="width:100%; padding:13px; font-size:0.94rem;">
+        دخول إلى فضاء المواطن
+      </button>
+      <button id="backToWelcomeBtn" class="btn-outline" style="width:100%; margin-top:8px;">عرض واجهات القدوم مجدداً</button>
+    </div>
+
+    <div id="userApp" class="hidden" style="display:flex; flex-direction:column; gap:11px;">
+      <header class="header">
+        <div>
+          <h2 id="uHeaderTitle">👤 دفتري الرقمي • فضاء المواطن</h2>
+          <span id="uHeaderSub">الهوية الرقمية الموحدة: دهانة أسامة</span>
+        </div>
+        <div class="header-actions">
+          <button id="langCycleBtn" class="mini-btn">AR/FR</button>
+          <button class="switch-btn logout-trigger">تبديل الفضاء 🔄</button>
+        </div>
+      </header>
+
+      <div id="offlineStrip" class="status-strip">
+        <span>📡 وضع بدون إنترنت (Offline): متاح ومُشفّر محلياً</span>
+        <span id="cardStateBadge">البطاقة نشطة ✓</span>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab-btn active" data-utab="uDocsTab">📁 الوثائق</button>
+        <button class="tab-btn" data-utab="uCardTab">💳 البطاقة وQR</button>
+        <button class="tab-btn" data-utab="uGovTab">🌐 بوابة الدولة</button>
+        <button class="tab-btn" data-utab="uLogsTab">📜 السجل والهوية</button>
+      </nav>
+
+      <section id="uDocsTab" class="u-tab-content">
+        <div class="panel">
+          <div class="panel-top">
+            <div>
+              <h3 style="font-size:0.94rem;">محفظة الوثائق (<span id="docCount">0</span>)</h3>
+              <p style="font-size:0.72rem; color:var(--muted);">معاينة، طباعة مطابقة للأصل، مشاركة مؤقتة، أو قفل الخصوصية</p>
+            </div>
+            <button id="openAddModalBtn" class="btn-primary">+ إضافة</button>
+          </div>
+
+          <div class="cat-filter">
+            <button class="cat-pill active" data-cat="all">الكل</button>
+            <button class="cat-pill" data-cat="personal">وثائق شخصية</button>
+            <button class="cat-pill" data-cat="academic">وثائق جامعية</button>
+            <button class="cat-pill" data-cat="admin">وثائق إدارية</button>
+          </div>
+
+          <div id="docsContainer"></div>
+        </div>
+      </section>
+
+      <section id="uCardTab" class="u-tab-content hidden">
+        <div class="tier-switcher">
+          <button class="tier-btn" data-tier="silver">الفضية</button>
+          <button class="tier-btn active" data-tier="gold">الذهبية</button>
+          <button class="tier-btn" data-tier="platinum">البلاتينية</button>
+        </div>
+
+        <div id="smartCardBox" class="smart-card tier-gold">
+          <div id="frozenOverlay" class="frozen-overlay hidden">
+            <div style="font-size:1.6rem;">🚨</div>
+            <div>البطاقة مُجمّدة مؤقتاً (وضع الطوارئ)</div>
+            <div style="font-size:0.74rem; font-weight:normal; margin-top:4px;">تم إيقاف القراءة ورمز التحقق لحماية بياناتك</div>
+          </div>
+          <div class="card-row">
+            <div>
+              <strong>دفتري الرقمي</strong>
+              <div style="font-size:0.72rem; opacity:0.85;">Daftari Digital</div>
+            </div>
+            <span id="cardSerial" class="card-serial">G-74129</span>
+          </div>
+          <div class="card-row" style="margin:10px 0;">
+            <div class="chip"></div>
+            <div style="font-size:0.76rem;">NFC • SMART ID 📶</div>
+          </div>
+          <div>
+            <strong style="display:block; font-size:1rem;">دهانة أسامة</strong>
+            <small id="cardEditionLabel" style="font-size:0.74rem; opacity:0.9;">GOLD EDITION • الباقة الاحترافية</small>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button id="toggleFreezeBtn" class="btn-danger" style="flex:1;">🚨 إيقاف / تجميد فوري (فقدان البطاقة)</button>
+        </div>
+
+        <div class="panel" style="margin-top:10px; text-align:center;">
+          <h3 style="font-size:0.92rem;">رمز التحقق الديناميكي المؤقت</h3>
+          <div id="qrBox" class="qr-code-box"></div>
+          <div id="qrTimer" style="font-size:0.78rem; color:#fde047;">صالح لمدة: 30 ثانية</div>
+          <div id="activeQrText" style="font-family:monospace; font-size:0.7rem; color:#93c5fd; margin-top:5px;"></div>
+        </div>
+      </section>
+
+      <section id="uGovTab" class="u-tab-content hidden">
+        <div class="panel">
+          <h3 style="font-size:0.95rem; margin-bottom:4px;">🌐 بوابة استخراج الوثائق الرسمية للدولة</h3>
+          <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">
+            استخرج وثيقتك مباشرة من المنصة الحكومية الرسمية ثم أضفها فوراً لمحفظتك في دفتري الرقمي:
+          </p>
+
+          <div class="gov-link-card">
+            <div>
+              <strong style="font-size:0.86rem;">وثائق الحالة المدنية (S12 / الإقامة)</strong>
+              <div style="font-size:0.72rem; color:var(--muted);">بوابة وزارة الداخلية والجماعات المحلية</div>
+            </div>
+            <a href="https://etatcivil.interieur.gov.dz" target="_blank" class="btn-primary" style="text-decoration:none;">فتح الموقع</a>
+          </div>
+
+          <div class="gov-link-card">
+            <div>
+              <strong style="font-size:0.86rem;">صحيفة السوابق العدلية (رقم 3)</strong>
+              <div style="font-size:0.72rem; color:var(--muted);">البوابة الإلكترونية لوزارة العدل</div>
+            </div>
+            <a href="https://portail.mjustice.dz" target="_blank" class="btn-primary" style="text-decoration:none;">فتح الموقع</a>
+          </div>
+
+          <div class="gov-link-card">
+            <div>
+              <strong style="font-size:0.86rem;">فضاء الهناء (شهادة الانتساب / الشفاء)</strong>
+              <div style="font-size:0.72rem; color:var(--muted);">الصندوق الوطني للتأمينات الاجتماعية (CNAS)</div>
+            </div>
+            <a href="https://elhanaa.cnas.dz" target="_blank" class="btn-primary" style="text-decoration:none;">فتح الموقع</a>
+          </div>
+
+          <div class="gov-link-card">
+            <div>
+              <strong style="font-size:0.86rem;">الخدمات الجامعية والشهادات (PROGRES)</strong>
+              <div style="font-size:0.72rem; color:var(--muted);">وزارة التعليم العالي والبحث العلمي</div>
+            </div>
+            <a href="https://progres.mesrs.dz" target="_blank" class="btn-primary" style="text-decoration:none;">فتح الموقع</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="uLogsTab" class="u-tab-content hidden">
+        <div class="panel" style="margin-bottom:10px;">
+          <h3 style="font-size:0.94rem; margin-bottom:8px;">🪪 الهوية الرقمية الموحدة للمواطن</h3>
+          <div style="font-size:0.8rem; line-height:1.8; color:#e2e8f0;">
+            <div>• <strong>الاسم الكامل:</strong> دهانة أسامة</div>
+            <div>• <strong>تاريخ ومكان الميلاد:</strong> 24 جوان 2004 بـ باتنة</div>
+            <div>• <strong>الصفة:</strong> طالب ماستر 2 قانون أعمال • مسيّر مؤسسة</div>
+            <div>• <strong>معرّف الهوية الرقمية:</strong> DZ-BATNA-2004-74129</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 style="font-size:0.94rem; margin-bottom:8px;">📜 سجل التحقق والمعاملات الأخيرة</h3>
+          <div id="logsContainer" style="font-size:0.78rem; color:#cbd5e1;"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="staffApp" class="hidden" style="display:flex; flex-direction:column; gap:12px;">
+      <header class="header" style="border-color: rgba(212, 175, 55, 0.45);">
+        <div>
+          <h2>🏛️ فضاء الموظف • بوابة التحقق</h2>
+          <span>مصلحة استقبال الملفات والتحقق الإلكتروني</span>
+        </div>
+        <button class="switch-btn logout-trigger">تبديل الفضاء 🔄</button>
+      </header>
+
+      <div class="panel" style="border-color: rgba(212, 175, 55, 0.4);">
+        <h3 style="font-size:0.95rem; color:#fde047;">فحص وثيقة أو قراءة بطاقة مواطن</h3>
+        <p style="font-size:0.76rem; color:#cbd5e1; margin-top:4px;">
+          يمكن للموظف تمرير البطاقة (NFC) أو إدخال رمز التحقق / معرّف الوثيقة للتحقق الفوري أو طباعة نسخة للأرشيف:
+        </p>
+
+        <input id="staffSearchInput" class="verify-input" type="text" placeholder="أدخل المعرّف: DOC-BAC-2021 أو DOC-204 أو G-74129" />
+
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
+          <button id="staffVerifyBtn" class="btn-gold" style="flex:1;">🔍 تحقق الآن</button>
+          <button id="nfcSimBtn" class="btn-primary">📶 محاكاة تمرير بطاقة NFC</button>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;">
+          <button class="btn-outline quick-check" data-code="DOC-BAC-2021">فحص البكالوريا</button>
+          <button class="btn-outline quick-check" data-code="DOC-204">فحص شهادة الماستر</button>
+          <button class="btn-outline quick-check" data-code="DOC-101">فحص شهادة الميلاد</button>
+        </div>
+      </div>
+
+      <div id="staffResultContainer" class="panel">
+        <p style="font-size:0.82rem; color:var(--muted); text-align:center;">
+          في انتظار تمرير البطاقة الذكية أو إدخال معرّف الوثيقة...
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="docModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <strong style="font-size:0.9rem;">النسخة الرسمية المطابقة للأصل</strong>
+        <button id="closeDocModalBtn" class="btn-outline">إغلاق ✕</button>
+      </div>
+      <div id="printableArea"></div>
+      <div class="no-print" style="display:flex; gap:8px; margin-top:12px;">
+        <button onclick="window.print()" class="btn-green" style="flex:1; padding:10px;">🖨️ طباعة الورقة / حفظ PDF</button>
+        <button id="closeDocModalBtn2" class="btn-outline">رجوع</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="shareModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <h3 style="font-size:0.98rem; margin-bottom:6px;">⏳ مشاركة آمنة ومؤقتة (عرض فقط)</h3>
+      <p id="shareDocName" style="font-size:0.8rem; color:#93c5fd; margin-bottom:8px;"></p>
+      <p style="font-size:0.76rem; color:var(--muted);">
+        هذا الرمز صالح لمرة واحدة فقط ولمدة 5 دقائق، ويسمح للموظف بالمعاينة دون تخزين نسخة خارجية:
+      </p>
+      <div id="oneTimeLinkBox" style="background:#0a1323; border:1px solid #1e3150; padding:10px; border-radius:10px; font-family:monospace; font-size:0.78rem; margin:10px 0; color:#fde047;"></div>
+      <div style="display:flex; gap:8px;">
+        <button id="copyShareBtn" class="btn-green" style="flex:1;">نسخ رمز المشاركة المؤقت</button>
+        <button id="closeShareBtn" class="btn-outline">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <h3 style="margin-bottom:8px; font-size:0.98rem;">إضافة وثيقة جديدة للمحفظة</h3>
+      <input id="newTitle" class="verify-input" type="text" placeholder="عنوان الوثيقة (مثلاً: شهادة الإقامة)" />
+      <input id="newIssuer" class="verify-input" type="text" placeholder="الجهة المصدرة (مثلاً:
