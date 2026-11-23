@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>دفتري الرقمي | Daftari Digital - النسخة التجريبية المتكاملة</title>
+  <title>دفتري الرقمي | Daftari Digital</title>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <style>
     :root {
@@ -13,7 +13,8 @@
       --border: #223554;
       --text: #f8fafc;
       --muted: #94a3b8;
-      --accent: #38bdf8;
+      --primary: #2563eb;
+      --gold: #d4af37;
       --success: #22c55e;
       --danger: #ef4444;
     }
@@ -26,7 +27,7 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #132544 0%, var(--bg) 60%);
+      background: radial-gradient(circle at top, #132544 0%, var(--bg) 65%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -36,24 +37,26 @@
 
     .app-shell {
       width: 100%;
-      max-width: 460px;
+      max-width: 480px;
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    /* شاشة القفل */
-    .lock-screen {
+    .hidden { display: none !important; }
+
+    /* شاشة اختيار الواجهة والدخول */
+    .portal-screen {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px 20px;
-      text-align: center;
-      margin-top: 40px;
+      border-radius: 22px;
+      padding: 24px 18px;
+      margin-top: 24px;
       box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+      text-align: center;
     }
 
-    .shield-icon {
+    .brand-badge {
       width: 64px;
       height: 64px;
       border-radius: 18px;
@@ -61,13 +64,41 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 14px;
+      margin: 0 auto 12px;
       font-size: 28px;
       border: 1px solid rgba(255,255,255,0.2);
     }
 
-    .lock-screen h1 { font-size: 1.4rem; margin-bottom: 6px; }
-    .lock-screen p { color: var(--muted); font-size: 0.86rem; margin-bottom: 18px; }
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .role-card {
+      background: var(--surface-2);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: center;
+    }
+
+    .role-card.active {
+      border-color: #3b82f6;
+      background: #152847;
+    }
+
+    .role-card.staff-role.active {
+      border-color: var(--gold);
+      background: #23221a;
+    }
+
+    .role-icon { font-size: 26px; margin-bottom: 6px; }
+    .role-title { font-weight: bold; font-size: 0.92rem; }
+    .role-sub { font-size: 0.74rem; color: var(--muted); margin-top: 4px; }
 
     .pin-input {
       width: 100%;
@@ -82,35 +113,34 @@
       margin-bottom: 12px;
     }
 
-    .hidden { display: none !important; }
-
-    /* الرأس والتبويبات */
+    /* الرأس العام */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: var(--surface);
       border: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 12px 15px;
       border-radius: 16px;
     }
 
-    .header h2 { font-size: 1.15rem; }
-    .header span { font-size: 0.75rem; color: var(--muted); }
+    .header h2 { font-size: 1.08rem; }
+    .header span { font-size: 0.74rem; color: var(--muted); }
 
-    .lock-btn {
+    .switch-btn {
       background: rgba(239, 68, 68, 0.14);
       color: #fca5a5;
       border: 1px solid rgba(239, 68, 68, 0.35);
       padding: 6px 10px;
       border-radius: 10px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       cursor: pointer;
     }
 
+    /* التبويبات */
     .tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
       background: var(--surface);
       padding: 6px;
@@ -124,10 +154,9 @@
       color: var(--muted);
       padding: 9px 6px;
       border-radius: 10px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s;
     }
 
     .tab-btn.active {
@@ -149,7 +178,7 @@
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--muted);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       cursor: pointer;
     }
 
@@ -163,15 +192,12 @@
     .smart-card {
       border-radius: 20px;
       padding: 20px;
-      min-height: 175px;
+      min-height: 170px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border: 1px solid rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.2);
       box-shadow: 0 14px 32px rgba(0,0,0,0.45);
-      position: relative;
-      overflow: hidden;
-      transition: 0.3s;
     }
 
     .tier-silver { background: linear-gradient(135deg, #0f294a 0%, #1e3a5f 60%, #94a3b8 100%); }
@@ -189,30 +215,18 @@
       height: 28px;
       border-radius: 6px;
       background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-      border: 1px solid rgba(0,0,0,0.3);
     }
 
     .card-serial {
       font-family: monospace;
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: bold;
-      letter-spacing: 1px;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.35);
       padding: 4px 10px;
       border-radius: 8px;
     }
 
-    .card-edition {
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      opacity: 0.9;
-      margin-top: 8px;
-    }
-
-    .card-footer strong { display: block; font-size: 1.1rem; }
-    .card-footer small { font-size: 0.78rem; opacity: 0.85; }
-
-    /* اللوحات والوثائق */
+    /* اللوحات والأزرار */
     .panel {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -227,13 +241,11 @@
       margin-bottom: 12px;
     }
 
-    .panel-top h3 { font-size: 0.98rem; }
-
     .btn-primary {
       background: #2563eb;
       color: #fff;
       border: none;
-      padding: 8px 13px;
+      padding: 9px 13px;
       border-radius: 10px;
       font-size: 0.82rem;
       font-weight: 600;
@@ -241,10 +253,21 @@
     }
 
     .btn-gold {
-      background: #d4af37;
+      background: var(--gold);
       color: #08101e;
       border: none;
-      padding: 7px 11px;
+      padding: 8px 11px;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-green {
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      padding: 8px 11px;
       border-radius: 9px;
       font-size: 0.78rem;
       font-weight: bold;
@@ -255,7 +278,7 @@
       background: transparent;
       color: #cbd5e1;
       border: 1px solid var(--border);
-      padding: 7px 10px;
+      padding: 8px 10px;
       border-radius: 9px;
       font-size: 0.78rem;
       cursor: pointer;
@@ -264,9 +287,14 @@
     .doc-card {
       background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
+      border-radius: 13px;
+      padding: 13px;
       margin-bottom: 10px;
+    }
+
+    .doc-card.featured {
+      border-color: rgba(212, 175, 55, 0.55);
+      background: linear-gradient(180deg, #101d35 0%, #0b1526 100%);
     }
 
     .doc-header {
@@ -274,11 +302,10 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 8px;
-      margin-bottom: 8px;
     }
 
-    .doc-title { font-weight: 700; font-size: 0.92rem; }
-    .doc-sub { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+    .doc-title { font-weight: 700; font-size: 0.94rem; }
+    .doc-sub { font-size: 0.76rem; color: var(--muted); margin-top: 3px; }
 
     .status-pill {
       background: rgba(34, 197, 94, 0.14);
@@ -292,11 +319,11 @@
 
     .doc-actions {
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
     }
 
-    /* صندوق QR والتحقق */
     .qr-wrapper {
       background: #fff;
       padding: 12px;
@@ -305,437 +332,638 @@
       margin: 12px auto;
     }
 
-    .timer-bar {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #fde047;
-      margin-bottom: 10px;
-    }
-
-    .hash-box {
-      background: var(--surface-2);
-      border: 1px dashed var(--border);
-      padding: 8px;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.72rem;
-      color: #93c5fd;
-      word-break: break-all;
-      margin-top: 8px;
-    }
-
     .verify-input {
       width: 100%;
-      padding: 10px;
+      padding: 11px;
       border-radius: 10px;
       border: 1px solid var(--border);
       background: var(--surface-2);
       color: #fff;
-      margin: 10px 0;
+      margin: 8px 0;
+      font-size: 0.86rem;
+    }
+
+    .staff-banner {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .result-box {
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
       font-size: 0.85rem;
+      line-height: 1.7;
     }
 
-    .verify-result {
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 0.84rem;
-      line-height: 1.6;
-      margin-top: 10px;
+    .result-ok {
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      color: #dcfce7;
     }
 
-    .res-ok {
-      background: rgba(34, 197, 94, 0.14);
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      color: #bbf7d0;
-    }
-
-    .res-err {
-      background: rgba(239, 68, 68, 0.14);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+    .result-err {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.45);
       color: #fecaca;
     }
 
-    /* نافذة التفاصيل */
+    /* نافذة معاينة وطباعة الوثيقة الرسمية */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.72);
+      background: rgba(0,0,0,0.8);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      z-index: 50;
+      padding: 12px;
+      z-index: 100;
+      overflow-y: auto;
     }
 
     .modal-box {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 18px;
+      padding: 16px;
       width: 100%;
-      max-width: 400px;
+      max-width: 520px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    /* تصميم الوثيقة الورقية المطابقة للأصل عند الطباعة */
+    .official-paper {
+      background: #fdfbf4;
+      color: #111827;
+      border: 6px double #7f1d1d;
+      outline: 2px solid #14532d;
+      outline-offset: -11px;
+      padding: 20px 18px;
+      border-radius: 4px;
+      position: relative;
+      text-align: right;
+      line-height: 1.75;
+      font-size: 0.86rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+
+    .paper-header {
+      text-align: center;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .paper-header h4 { font-size: 0.92rem; color: #111827; }
+    .paper-title {
+      text-align: center;
+      color: #991b1b;
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin: 8px 0;
+      letter-spacing: 0.5px;
+    }
+
+    .paper-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: bold;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .paper-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #9ca3af;
+      font-size: 0.76rem;
+    }
+
+    .digital-stamp {
+      border: 2px solid #15803d;
+      color: #15803d;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.72rem;
+      background: rgba(22, 163, 74, 0.06);
+    }
+
+    /* إعدادات الطباعة الحقيقية (تطبع الورقة فقط بدون خلفية التطبيق) */
+    @media print {
+      body * { visibility: hidden; }
+      #printableArea, #printableArea * { visibility: visible; }
+      #printableArea {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        background: #fff;
+        padding: 15mm;
+      }
+      .no-print { display: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="app-shell">
 
-    <!-- 1. شاشة الحماية والمصادقة -->
-    <div id="lockScreen" class="lock-screen">
-      <div class="shield-icon">🛡️</div>
-      <h1>دفتري الرقمي</h1>
-      <p>محفظة الوثائق الرسمية والبطاقة الذكية المؤمنة<br>أدخل رمز الحماية التجريبي (<strong>1234</strong>) للدخول</p>
-      <input id="pinInput" class="pin-input" type="password" maxlength="4" value="1234" placeholder="••••" />
-      <button id="unlockBtn" class="btn-primary" style="width:100%; padding:12px;">فتح المحفظة الرقمية</button>
+    <!-- 1. شاشة اختيار الواجهة (مستخدم أو موظف) -->
+    <div id="portalScreen" class="portal-screen">
+      <div class="brand-badge">🛡️</div>
+      <h1 style="font-size:1.4rem;">دفتري الرقمي • Daftari Digital</h1>
+      <p style="color:var(--muted); font-size:0.84rem; margin-top:4px;">اختر نوع الواجهة للدخول إلى المنظومة</p>
+
+      <div class="role-grid">
+        <div id="selectUserRole" class="role-card active">
+          <div class="role-icon">👤</div>
+          <div class="role-title">واجهة المستخدم</div>
+          <div class="role-sub">المواطن / الطالب (PIN: 1234)</div>
+        </div>
+        <div id="selectStaffRole" class="role-card staff-role">
+          <div class="role-icon">🏛️</div>
+          <div class="role-title">واجهة الموظف</div>
+          <div class="role-sub">الإدارة / الجامعة (PIN: 0000)</div>
+        </div>
+      </div>
+
+      <input id="pinInput" class="pin-input" type="password" maxlength="4" value="1234" />
+      <button id="loginBtn" class="btn-primary" style="width:100%; padding:13px; font-size:0.95rem;">
+        دخول إلى واجهة المستخدم
+      </button>
     </div>
 
-    <!-- 2. التطبيق الرئيسي -->
-    <div id="mainApp" class="hidden" style="display:flex; flex-direction:column; gap:14px;">
+    <!-- 2. واجهة المستخدم (المواطن / الطالب) -->
+    <div id="userApp" class="hidden" style="display:flex; flex-direction:column; gap:14px;">
       <header class="header">
         <div>
-          <h2>دفتري الرقمي • Daftari Digital</h2>
-          <span>حاضنة الأعمال الجامعية • جامعة باتنة 1 (نسخة عرض تجريبية)</span>
+          <h2>👤 فضاء المواطن • دفتري الرقمي</h2>
+          <span>المستخدم: دهانة أسامة • محفظة مؤمنة</span>
         </div>
-        <button id="lockBtn" class="lock-btn">قفل 🔒</button>
+        <button class="switch-btn logout-trigger">تبديل الواجهة 🔄</button>
       </header>
 
-      <!-- التبويبات الرئيسية -->
       <nav class="tabs">
-        <button class="tab-btn active" data-tab="walletTab">📁 المحفظة</button>
-        <button class="tab-btn" data-tab="cardTab">💳 البطاقة الذكية</button>
-        <button class="tab-btn" data-tab="verifyTab">✅ التحقق (مؤسسات)</button>
+        <button class="tab-btn active" data-utab="uWallet">📁 وثائقي والطباعة</button>
+        <button class="tab-btn" data-utab="uCard">💳 البطاقة و QR</button>
       </nav>
 
-      <!-- الباب الأول: المحفظة الرقمية -->
-      <section id="walletTab" class="tab-content">
+      <!-- تبويب وثائق المستخدم -->
+      <section id="uWallet" class="u-tab-content">
         <div class="panel">
           <div class="panel-top">
-            <h3>الوثائق الرقمية الموثقة (<span id="docCount">0</span>)</h3>
-            <button id="openAddModalBtn" class="btn-primary">+ وثيقة جديدة</button>
+            <div>
+              <h3 style="font-size:0.96rem;">محفظة الوثائق الرسمية (<span id="docCount">0</span>)</h3>
+              <p style="font-size:0.74rem; color:var(--muted);">اضغط "نسخة رسمية / طباعة" لإخراج الوثيقة ورقياً عند الطلب</p>
+            </div>
+            <button id="openAddModalBtn" class="btn-primary">+ إضافة</button>
           </div>
           <div id="docsContainer"></div>
         </div>
       </section>
 
-      <!-- الباب الثاني: البطاقة الذكية وQR الديناميكي -->
-      <section id="cardTab" class="tab-content hidden">
+      <!-- تبويب البطاقة الذكية و QR -->
+      <section id="uCard" class="u-tab-content hidden">
         <div class="tier-switcher">
-          <button class="tier-btn" data-tier="silver">الفضية (Essential)</button>
-          <button class="tier-btn active" data-tier="gold">الذهبية (Pro)</button>
-          <button class="tier-btn" data-tier="platinum">البلاتينية (Enterprise)</button>
+          <button class="tier-btn" data-tier="silver">الفضية</button>
+          <button class="tier-btn active" data-tier="gold">الذهبية</button>
+          <button class="tier-btn" data-tier="platinum">البلاتينية</button>
         </div>
 
         <div id="smartCardBox" class="smart-card tier-gold">
           <div class="card-row">
             <div>
               <strong>دفتري الرقمي</strong>
-              <div style="font-size:0.75rem; opacity:0.85;">Daftari Digital</div>
+              <div style="font-size:0.74rem; opacity:0.85;">Daftari Digital</div>
             </div>
             <span id="cardSerial" class="card-serial">G-74129</span>
           </div>
-
           <div class="card-row" style="margin:12px 0;">
             <div class="chip"></div>
-            <div style="font-size:0.8rem; opacity:0.9;">NFC • CONTACTLESS 📶</div>
+            <div style="font-size:0.78rem;">NFC • SMART ID 📶</div>
           </div>
-
-          <div class="card-footer">
-            <strong>دهانة أسامة</strong>
-            <small id="cardEditionLabel">GOLD EDITION • الباقة الاحترافية</small>
+          <div>
+            <strong style="display:block; font-size:1.05rem;">دهانة أسامة</strong>
+            <small id="cardEditionLabel" style="font-size:0.76rem; opacity:0.9;">GOLD EDITION • الباقة الاحترافية</small>
           </div>
         </div>
 
-        <div class="panel" style="margin-top:14px; text-align:center;">
-          <h3 style="font-size:0.95rem;">رمز QR الديناميكي للبطاقة / الوثيقة</h3>
-          <p style="font-size:0.78rem; color:var(--muted); margin-top:4px;">يتجدد تلقائياً كل 30 ثانية لمنع النسخ والتزوير</p>
+        <div class="panel" style="margin-top:12px; text-align:center;">
+          <h3 style="font-size:0.94rem;">رمز التحقق الديناميكي المؤقت</h3>
+          <p style="font-size:0.76rem; color:var(--muted); margin-top:4px;">أظهر هذا الرمز للموظف لمسحه والتحقق من وثائقك</p>
           <div id="qrBox" class="qr-wrapper"></div>
-          <div id="qrTimer" class="timer-bar">صالح لمدة: 30 ثانية</div>
-          <div id="activeQrInfo" class="hash-box"></div>
-          <button id="refreshQrBtn" class="btn-outline" style="margin-top:10px;">🔄 توليد رمز جديد فوراً</button>
-        </div>
-      </section>
-
-      <!-- الباب الثالث: بوابة التحقق للمؤسسات والإدارات -->
-      <section id="verifyTab" class="tab-content hidden">
-        <div class="panel">
-          <h3 style="font-size:0.98rem;">نظام التحقق الإلكتروني للمؤسسات (B2B / B2G)</h3>
-          <p style="font-size:0.8rem; color:var(--muted); margin-top:4px;">
-            محاكاة لما يراه موظف الإدارة أو الجامعة عند مسح البطاقة الذكية أو رمز QR الخاص بالمواطن.
-          </p>
-
-          <input id="verifyCodeInput" class="verify-input" type="text" placeholder="أدخل رقم الوثيقة مثل DOC-101 أو رقم البطاقة G-74129" />
-          <div style="display:flex; gap:8px;">
-            <button id="runVerifyBtn" class="btn-primary" style="flex:1;">فحص والتحقق الآن</button>
-            <button id="fillSampleVerifyBtn" class="btn-outline">تجربة وثيقة تلقائياً</button>
-          </div>
-
-          <div id="verifyOutput" class="verify-result res-ok">
-            جاهز للفحص: اضغط على "تجربة وثيقة تلقائياً" أو أدخل معرّف أي وثيقة من المحفظة.
-          </div>
+          <div id="qrTimer" style="font-size:0.8rem; color:#fde047;">صالح لمدة: 30 ثانية</div>
+          <div id="activeQrText" style="font-family:monospace; font-size:0.72rem; color:#93c5fd; margin-top:6px;"></div>
         </div>
       </section>
     </div>
-  </div>
 
-  <!-- نافذة إضافة وثيقة -->
-  <div id="addModal" class="modal-backdrop hidden">
-    <div class="modal-box">
-      <h3 style="margin-bottom:10px;">إضافة وثيقة إلى المحفظة</h3>
-      <input id="newDocTitle" class="verify-input" type="text" placeholder="اسم الوثيقة (مثلاً: شهادة الإقامة)" />
-      <input id="newDocIssuer" class="verify-input" type="text" placeholder="الجهة المصدرة (مثلاً: بلدية باتنة)" />
-      <input id="newDocCategory" class="verify-input" type="text" placeholder="التصنيف (حالة مدنية / جامعي / مهني)" />
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button id="saveNewDocBtn" class="btn-primary" style="flex:1;">حفظ وتوثيق</button>
-        <button id="closeAddModalBtn" class="btn-outline">إلغاء</button>
+    <!-- 3. واجهة الموظف (الإدارة / المؤسسة المستقبِلة) -->
+    <div id="staffApp" class="hidden" style="display:flex; flex-direction:column; gap:14px;">
+      <header class="header" style="border-color: rgba(212, 175, 55, 0.45);">
+        <div>
+          <h2>🏛️ فضاء الموظف • بوابة التحقق</h2>
+          <span>مصلحة استقبال الملفات والتحقق الإلكتروني</span>
+        </div>
+        <button class="switch-btn logout-trigger">تبديل الواجهة 🔄</button>
+      </header>
+
+      <div class="staff-banner">
+        <h3 style="font-size:0.96rem; color:#fde047;">فحص وثيقة أو بطاقة مواطن</h3>
+        <p style="font-size:0.78rem; color:#cbd5e1; margin-top:4px;">
+          أدخل معرّف الوثيقة أو رقم البطاقة الذكية (أو اختر فحصاً سريعاً) للتحقق من المطابقة للأصل أو طباعة نسخة للأرشيف:
+        </p>
+
+        <input id="staffSearchInput" class="verify-input" type="text" placeholder="مثال: DOC-BAC-2021 أو 35003472 أو G-74129" />
+
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
+          <button id="staffVerifyBtn" class="btn-gold" style="flex:1;">🔍 تحقق الآن</button>
+          <button class="btn-outline quick-check" data-code="DOC-BAC-2021">فحص البكالوريا</button>
+          <button class="btn-outline quick-check" data-code="DOC-204">فحص شهادة جامعية</button>
+          <button class="btn-outline quick-check" data-code="G-74129">فحص البطاقة</button>
+        </div>
+      </div>
+
+      <div id="staffResultContainer" class="panel">
+        <p style="font-size:0.84rem; color:var(--muted); text-align:center;">
+          في انتظار مسح رمز QR أو إدخال معرّف الوثيقة للتحقق...
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- نافذة معاينة الوثيقة -->
-  <div id="viewModal" class="modal-backdrop hidden">
+  <!-- نافذة معاينة وطباعة الوثيقة الرسمية -->
+  <div id="docModal" class="modal-backdrop hidden">
     <div class="modal-box">
-      <h3 id="viewTitle" style="margin-bottom:8px;"></h3>
-      <p id="viewDetails" style="font-size:0.85rem; color:#cbd5e1; line-height:1.7;"></p>
-      <div id="viewHash" class="hash-box"></div>
-      <button id="closeViewModalBtn" class="btn-primary" style="width:100%; margin-top:12px;">إغلاق</button>
+      <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <strong style="font-size:0.92rem;">معاينة النسخة الرسمية القابلة للطباعة</strong>
+        <button id="closeDocModalBtn" class="btn-outline">إغلاق ✕</button>
+      </div>
+
+      <div id="printableArea"></div>
+
+      <div class="no-print" style="display:flex; gap:8px; margin-top:12px;">
+        <button onclick="window.print()" class="btn-green" style="flex:1; padding:11px;">🖨️ طباعة الورقة / حفظ PDF</button>
+        <button id="closeDocModalBtn2" class="btn-outline">رجوع</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة إضافة وثيقة جديدة -->
+  <div id="addModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <h3 style="margin-bottom:10px; font-size:1rem;">إضافة وثيقة جديدة للمحفظة</h3>
+      <input id="newTitle" class="verify-input" type="text" placeholder="عنوان الوثيقة (مثلاً: شهادة الإقامة)" />
+      <input id="newIssuer" class="verify-input" type="text" placeholder="الجهة المصدرة (مثلاً: بلدية باتنة)" />
+      <input id="newDetails" class="verify-input" type="text" placeholder="بيانات إضافية (مثلاً: رقم الوثيقة أو الملاحظة)" />
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button id="saveDocBtn" class="btn-primary" style="flex:1;">حفظ في المحفظة</button>
+        <button id="closeAddBtn" class="btn-outline">إلغاء</button>
+      </div>
     </div>
   </div>
 
   <script>
     const tiers = {
-      silver: {
-        serial: "S-35684",
-        label: "ESSENTIAL EDITION • الباقة الأساسية",
-        className: "smart-card tier-silver"
-      },
-      gold: {
-        serial: "G-74129",
-        label: "GOLD EDITION • الباقة الاحترافية",
-        className: "smart-card tier-gold"
-      },
-      platinum: {
-        serial: "E-99999",
-        label: "ELITE ENTERPRISE • باقة النخبة",
-        className: "smart-card tier-platinum"
-      }
+      silver: { serial: "S-35684", label: "ESSENTIAL EDITION • الباقة الأساسية", cls: "smart-card tier-silver" },
+      gold: { serial: "G-74129", label: "GOLD EDITION • الباقة الاحترافية", cls: "smart-card tier-gold" },
+      platinum: { serial: "E-99999", label: "ELITE ENTERPRISE • باقة النخبة", cls: "smart-card tier-platinum" }
     };
 
-    const defaultDocs = [
+    const initialDocs = [
       {
-        id: "DOC-101",
-        title: "شهادة الميلاد الرقمية (S12)",
-        issuer: "الحالة المدنية - بلدية باتنة",
-        category: "حالة مدنية",
-        date: "2026-11-01",
-        hash: "SHA256:9f84c2a1e7b04d19c83a51f0d2b6e441"
+        id: "DOC-BAC-2021",
+        isBac: true,
+        title: "شهادة البكالوريا للتعليم الثانوي - دورة 2021",
+        issuer: "وزارة التربية الوطنية - الديوان الوطني للامتحانات والمسابقات",
+        date: "2021-07-17",
+        examNumber: "35003472",
+        serialNumber: "515368152330019265",
+        branch: "لغات أجنبية",
+        grade: "مقبول",
+        holder: "دهانة أسامة",
+        birthInfo: "24 جوان 2004 بـ باتنة - باتنة",
+        hash: "SHA256:BAC2021-35003472-515368152330019265"
       },
       {
         id: "DOC-204",
-        title: "شهادة التسجيل / ماستر 2 قانون أعمال",
-        issuer: "جامعة باتنة 1 - الحاج لخضر",
-        category: "تعليم عالي",
+        isBac: false,
+        title: "شهادة التسجيل الجامعي - ماستر 2 قانون أعمال",
+        issuer: "وزارة التعليم العالي والبحث العلمي - جامعة باتنة 1",
         date: "2026-10-15",
-        hash: "SHA256:4b19d8e2c77a30f6e1129c5a8b04d732"
+        holder: "دهانة أسامة",
+        details: "السنة الجامعية 2026/2027 - كلية الحقوق والعلوم السياسية",
+        hash: "SHA256:UNIV-BATNA1-M2-DROIT-2026"
       },
       {
-        id: "DOC-309",
-        title: "السجل التجاري / الاعتماد المهني",
-        issuer: "المركز الوطني للسجل التجاري",
-        category: "وثائق مهنية",
-        date: "2026-09-20",
-        hash: "SHA256:7e31a9c4f20b68d1e594a2c7f183b609"
+        id: "DOC-101",
+        isBac: false,
+        title: "مستخرج شهادة الميلاد الرقمية (S12)",
+        issuer: "وزارة الداخلية والجماعات المحلية - بلدية باتنة",
+        date: "2026-11-01",
+        holder: "دهانة أسامة",
+        details: "تاريخ ومكان الميلاد: 24 جوان 2004 بـ باتنة",
+        hash: "SHA256:CIV-BATNA-S12-20040624"
       }
     ];
 
-    let docs = JSON.parse(localStorage.getItem("daftari_v2_docs")) || defaultDocs;
+    let docs = JSON.parse(localStorage.getItem("daftari_v3_docs")) || initialDocs;
+    let selectedRole = "user";
     let currentTier = "gold";
-    let selectedDoc = docs[0];
+    let activeQrDoc = docs[0];
     let secondsLeft = 30;
 
-    // عناصر الواجهة
-    const lockScreen = document.getElementById("lockScreen");
-    const mainApp = document.getElementById("mainApp");
-    const docsContainer = document.getElementById("docsContainer");
-    const docCount = document.getElementById("docCount");
+    // اختيار الواجهة من الشاشة الرئيسية
+    const selectUserRole = document.getElementById("selectUserRole");
+    const selectStaffRole = document.getElementById("selectStaffRole");
+    const pinInput = document.getElementById("pinInput");
+    const loginBtn = document.getElementById("loginBtn");
 
-    // قفل وفتح التطبيق
-    document.getElementById("unlockBtn").addEventListener("click", () => {
-      const pin = document.getElementById("pinInput").value.trim();
-      if (pin === "1234") {
-        lockScreen.classList.add("hidden");
-        mainApp.classList.remove("hidden");
-        renderDocs();
-        generateDynamicQR(selectedDoc);
+    selectUserRole.addEventListener("click", () => {
+      selectedRole = "user";
+      selectUserRole.classList.add("active");
+      selectStaffRole.classList.remove("active");
+      pinInput.value = "1234";
+      loginBtn.textContent = "دخول إلى واجهة المستخدم";
+      loginBtn.className = "btn-primary";
+    });
+
+    selectStaffRole.addEventListener("click", () => {
+      selectedRole = "staff";
+      selectStaffRole.classList.add("active");
+      selectUserRole.classList.remove("active");
+      pinInput.value = "0000";
+      loginBtn.textContent = "دخول إلى واجهة الموظف";
+      loginBtn.className = "btn-gold";
+    });
+
+    loginBtn.addEventListener("click", () => {
+      const pin = pinInput.value.trim();
+      if (selectedRole === "user") {
+        if (pin !== "1234") return alert("رمز واجهة المستخدم التجريبي هو 1234");
+        document.getElementById("portalScreen").classList.add("hidden");
+        document.getElementById("staffApp").classList.add("hidden");
+        document.getElementById("userApp").classList.remove("hidden");
+        renderUserDocs();
+        updateQR(activeQrDoc);
       } else {
-        alert("رمز الحماية التجريبي هو: 1234");
+        if (pin !== "0000") return alert("رمز واجهة الموظف التجريبي هو 0000");
+        document.getElementById("portalScreen").classList.add("hidden");
+        document.getElementById("userApp").classList.add("hidden");
+        document.getElementById("staffApp").classList.remove("hidden");
       }
     });
 
-    document.getElementById("lockBtn").addEventListener("click", () => {
-      mainApp.classList.add("hidden");
-      lockScreen.classList.remove("hidden");
-    });
-
-    // التنقل بين التبويبات
-    document.querySelectorAll(".tab-btn").forEach(btn => {
+    document.querySelectorAll(".logout-trigger").forEach(btn => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tab-content").forEach(c => c.classList.add("hidden"));
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.remove("hidden");
+        document.getElementById("userApp").classList.add("hidden");
+        document.getElementById("staffApp").classList.add("hidden");
+        document.getElementById("portalScreen").classList.remove("hidden");
       });
     });
 
-    // تبديل باقات البطاقة الذكية
+    // تبويبات المستخدم
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".u-tab-content").forEach(c => c.classList.add("hidden"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.utab).classList.remove("hidden");
+      });
+    });
+
+    // تبديل باقات البطاقة
     document.querySelectorAll(".tier-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".tier-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentTier = btn.dataset.tier;
-        const info = tiers[currentTier];
-        document.getElementById("smartCardBox").className = info.className;
-        document.getElementById("cardSerial").textContent = info.serial;
-        document.getElementById("cardEditionLabel").textContent = info.label;
-        generateDynamicQR(selectedDoc);
+        document.getElementById("smartCardBox").className = tiers[currentTier].cls;
+        document.getElementById("cardSerial").textContent = tiers[currentTier].serial;
+        document.getElementById("cardEditionLabel").textContent = tiers[currentTier].label;
+        updateQR(activeQrDoc);
       });
     });
 
-    // توليد QR ديناميكي
-    function generateDynamicQR(doc) {
-      selectedDoc = doc || docs[0];
+    // توليد QR
+    function updateQR(doc) {
+      activeQrDoc = doc || docs[0];
       const qrBox = document.getElementById("qrBox");
       qrBox.innerHTML = "";
-      const token = Math.random().toString(36).substring(2, 8).toUpperCase();
-      const payload = `DAFTARI|CARD:${tiers[currentTier].serial}|DOC:${selectedDoc.id}|TOKEN:${token}`;
-
+      const token = Math.random().toString(36).substring(2, 7).toUpperCase();
       new QRCode(qrBox, {
-        text: payload,
-        width: 145,
-        height: 145
+        text: `DAFTARI|${tiers[currentTier].serial}|${activeQrDoc.id}|${token}`,
+        width: 140,
+        height: 140
       });
-
-      document.getElementById("activeQrInfo").textContent =
-        `الوثيقة النشطة: ${selectedDoc.title} (${selectedDoc.id}) | رمز الجلسة المؤقت: ${token}`;
+      document.getElementById("activeQrText").textContent = `الوثيقة النشطة: ${activeQrDoc.id} • رمز الجلسة: ${token}`;
       secondsLeft = 30;
     }
 
     setInterval(() => {
-      if (mainApp.classList.contains("hidden")) return;
+      if (document.getElementById("userApp").classList.contains("hidden")) return;
       secondsLeft--;
-      if (secondsLeft <= 0) {
-        generateDynamicQR(selectedDoc);
-      }
+      if (secondsLeft <= 0) updateQR(activeQrDoc);
       document.getElementById("qrTimer").textContent = `صالح لمدة: ${secondsLeft} ثانية (يتجدد تلقائياً)`;
     }, 1000);
 
-    document.getElementById("refreshQrBtn").addEventListener("click", () => generateDynamicQR(selectedDoc));
+    // بناء القالب الرسمي المطابق للأصل للطباعة
+    function openOfficialDocument(doc) {
+      const area = document.getElementById("printableArea");
+      if (doc.isBac) {
+        area.innerHTML = `
+          <div class="official-paper">
+            <div class="paper-meta">
+              <span>الرقم: ${doc.examNumber}</span>
+              <span>الرقم التسلسلي: ${doc.serialNumber}</span>
+            </div>
+            <div class="paper-header">
+              <h4>الجمهورية الجزائرية الديمقراطية الشعبية</h4>
+              <div style="font-weight:bold; font-size:0.84rem;">وزارة التربية الوطنية • الديوان الوطني للامتحانات والمسابقات</div>
+            </div>
+            <div class="paper-title">شهادة البكالوريا للتعليم الثانوي</div>
+            <p style="margin-top:8px;">
+              بناءً على محضر لجنة المداولات لدورة <strong>2021</strong>،<br>
+              تمنح شهادة البكالوريا للتعليم الثانوي<br>
+              للسيد: <strong>${doc.holder}</strong><br>
+              المولود في: <strong>${doc.birthInfo}</strong><br>
+              شعبة: <strong>${doc.branch}</strong> • بتقدير: <strong>${doc.grade}</strong>
+            </p>
+            <p style="margin-top:8px; font-size:0.8rem;">
+              حُرّر بالجزائر في: <strong>17 جويلية 2021</strong> — مُمضى: عن وزير التربية الوطنية، مدير الديوان الوطني للامتحانات والمسابقات.
+            </p>
+            <div class="paper-footer">
+              <div class="digital-stamp">
+                ✓ مستخرج رقمي موثق — دفتري الرقمي<br>
+                المعرّف: ${doc.id}<br>
+                مطابق للأصل وقابل للتحقق الفوري
+              </div>
+              <div id="paperQr"></div>
+            </div>
+          </div>
+        `;
+      } else {
+        area.innerHTML = `
+          <div class="official-paper" style="border-color:#1e3a8a;">
+            <div class="paper-meta">
+              <span>المعرّف: ${doc.id}</span>
+              <span>التاريخ: ${doc.date}</span>
+            </div>
+            <div class="paper-header">
+              <h4>الجمهورية الجزائرية الديمقراطية الشعبية</h4>
+              <div style="font-weight:bold; font-size:0.84rem;">${doc.issuer}</div>
+            </div>
+            <div class="paper-title" style="color:#1e3a8a; font-size:1.15rem;">${doc.title}</div>
+            <p style="margin-top:10px;">
+              تشهد الجهة المصدرة المذكورة أعلاه بصحة بيانات هذه الوثيقة الخاصة بـ:<br>
+              السيد: <strong>${doc.holder}</strong><br>
+              التفاصيل: <strong>${doc.details || "وثيقة رسمية سارية المفعول"}</strong>
+            </p>
+            <div class="paper-footer">
+              <div class="digital-stamp">
+                ✓ نسخة رقمية موثقة — دفتري الرقمي<br>
+                البصمة: ${doc.hash.substring(0, 22)}...
+              </div>
+              <div id="paperQr"></div>
+            </div>
+          </div>
+        `;
+      }
 
-    // عرض الوثائق
-    function renderDocs() {
-      docsContainer.innerHTML = "";
-      docCount.textContent = docs.length;
+      document.getElementById("docModal").classList.remove("hidden");
+      new QRCode(document.getElementById("paperQr"), {
+        text: `VERIFY|${doc.id}|${doc.holder}`,
+        width: 64,
+        height: 64
+      });
+    }
+
+    document.getElementById("closeDocModalBtn").addEventListener("click", () => {
+      document.getElementById("docModal").classList.add("hidden");
+    });
+    document.getElementById("closeDocModalBtn2").addEventListener("click", () => {
+      document.getElementById("docModal").classList.add("hidden");
+    });
+
+    // عرض وثائق المستخدم
+    function renderUserDocs() {
+      const container = document.getElementById("docsContainer");
+      container.innerHTML = "";
+      document.getElementById("docCount").textContent = docs.length;
+
       docs.forEach(doc => {
-        const div = document.createElement("div");
-        div.className = "doc-card";
-        div.innerHTML = `
+        const card = document.createElement("div");
+        card.className = doc.isBac ? "doc-card featured" : "doc-card";
+        card.innerHTML = `
           <div class="doc-header">
             <div>
               <div class="doc-title">${doc.title}</div>
-              <div class="doc-sub">${doc.issuer} • ${doc.category} (${doc.id})</div>
+              <div class="doc-sub">${doc.issuer} • (${doc.id})</div>
             </div>
             <span class="status-pill">موثقة ✓</span>
           </div>
           <div class="doc-actions">
-            <button class="btn-gold qr-action">عرض QR</button>
-            <button class="btn-outline view-action">معاينة البصمة</button>
+            <button class="btn-green print-btn">🖨️ نسخة رسمية / طباعة</button>
+            <button class="btn-gold qr-btn">رمز QR</button>
           </div>
         `;
-        div.querySelector(".qr-action").addEventListener("click", () => {
-          generateDynamicQR(doc);
-          document.querySelector('[data-tab="cardTab"]').click();
+        card.querySelector(".print-btn").addEventListener("click", () => openOfficialDocument(doc));
+        card.querySelector(".qr-btn").addEventListener("click", () => {
+          updateQR(doc);
+          document.querySelector('[data-utab="uCard"]').click();
         });
-        div.querySelector(".view-action").addEventListener("click", () => {
-          document.getElementById("viewTitle").textContent = doc.title;
-          document.getElementById("viewDetails").innerHTML =
-            `<strong>المعرّف:</strong> ${doc.id}<br>` +
-            `<strong>الجهة المصدرة:</strong> ${doc.issuer}<br>` +
-            `<strong>تاريخ التوثيق:</strong> ${doc.date}<br>` +
-            `<strong>الحالة:</strong> سارية ومطابقة للأصل`;
-          document.getElementById("viewHash").textContent = doc.hash;
-          document.getElementById("viewModal").classList.remove("hidden");
-        });
-        docsContainer.appendChild(div);
+        container.appendChild(card);
       });
     }
 
     // إضافة وثيقة جديدة
     const addModal = document.getElementById("addModal");
     document.getElementById("openAddModalBtn").addEventListener("click", () => addModal.classList.remove("hidden"));
-    document.getElementById("closeAddModalBtn").addEventListener("click", () => addModal.classList.add("hidden"));
-    document.getElementById("closeViewModalBtn").addEventListener("click", () => {
-      document.getElementById("viewModal").classList.add("hidden");
-    });
-
-    document.getElementById("saveNewDocBtn").addEventListener("click", () => {
-      const title = document.getElementById("newDocTitle").value.trim();
-      const issuer = document.getElementById("newDocIssuer").value.trim() || "جهة رسمية معتمدة";
-      const category = document.getElementById("newDocCategory").value.trim() || "وثيقة رسمية";
+    document.getElementById("closeAddBtn").addEventListener("click", () => addModal.classList.add("hidden"));
+    document.getElementById("saveDocBtn").addEventListener("click", () => {
+      const title = document.getElementById("newTitle").value.trim();
       if (!title) return;
-
       const newDoc = {
-        id: "DOC-" + Math.floor(400 + Math.random() * 599),
+        id: "DOC-" + Math.floor(300 + Math.random() * 699),
+        isBac: false,
         title,
-        issuer,
-        category,
+        issuer: document.getElementById("newIssuer").value.trim() || "جهة رسمية معتمدة",
         date: new Date().toISOString().split("T")[0],
-        hash: "SHA256:" + Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        holder: "دهانة أسامة",
+        details: document.getElementById("newDetails").value.trim() || "وثيقة مضافة وموثقة رقمياً",
+        hash: "SHA256:" + Math.random().toString(16).substring(2, 16).toUpperCase()
       };
-
       docs.unshift(newDoc);
-      localStorage.setItem("daftari_v2_docs", JSON.stringify(docs));
-      renderDocs();
+      localStorage.setItem("daftari_v3_docs", JSON.stringify(docs));
+      renderUserDocs();
       addModal.classList.add("hidden");
-      document.getElementById("newDocTitle").value = "";
-      document.getElementById("newDocIssuer").value = "";
-      document.getElementById("newDocCategory").value = "";
+      document.getElementById("newTitle").value = "";
+      document.getElementById("newIssuer").value = "";
+      document.getElementById("newDetails").value = "";
     });
 
-    // بوابة التحقق للمؤسسات
-    function verifyCode(rawCode) {
-      const code = rawCode.trim().toUpperCase();
-      const out = document.getElementById("verifyOutput");
-      const foundDoc = docs.find(d => d.id.toUpperCase() === code || code.includes(d.id.toUpperCase()));
-      const foundCard = Object.values(tiers).find(t => t.serial === code || code.includes(t.serial));
+    // منطق التحقق في واجهة الموظف
+    function runStaffCheck(raw) {
+      const q = raw.trim().toUpperCase();
+      const box = document.getElementById("staffResultContainer");
+      const matchedDoc = docs.find(d =>
+        d.id.toUpperCase() === q ||
+        (d.examNumber && d.examNumber === q) ||
+        q.includes(d.id.toUpperCase())
+      );
+      const matchedCard = Object.values(tiers).find(t => t.serial === q || q.includes(t.serial));
 
-      if (foundDoc) {
-        out.className = "verify-result res-ok";
-        out.innerHTML =
-          `✅ <strong>الوثيقة أصلية وموثقة في نظام دفتري الرقمي</strong><br>` +
-          `• الوثيقة: ${foundDoc.title} (${foundDoc.id})<br>` +
-          `• صاحب المحفظة: دهانة أسامة<br>` +
-          `• الجهة المصدرة: ${foundDoc.issuer}<br>` +
-          `• البصمة الرقمية: سليمة 100%`;
-      } else if (foundCard) {
-        out.className = "verify-result res-ok";
-        out.innerHTML =
-          `✅ <strong>البطاقة الذكية نشطة ومعتمدة</strong><br>` +
-          `• الرقم التسلسلي: ${foundCard.serial}<br>` +
-          `• الفئة: ${foundCard.label}<br>` +
-          `• صاحب البطاقة: دهانة أسامة`;
+      if (matchedDoc) {
+        box.innerHTML = `
+          <div class="result-box result-ok">
+            <div style="font-size:1rem; font-weight:bold; margin-bottom:6px;">✅ تم التحقق: الوثيقة أصلية ومطابقة للسجل</div>
+            <div>• <strong>صاحب الوثيقة:</strong> ${matchedDoc.holder}</div>
+            <div>• <strong>نوع الوثيقة:</strong> ${matchedDoc.title}</div>
+            <div>• <strong>الجهة المصدرة:</strong> ${matchedDoc.issuer}</div>
+            <div>• <strong>معرّف التوثيق:</strong> ${matchedDoc.id}</div>
+            <div style="margin-top:12px;">
+              <button id="staffOpenPaperBtn" class="btn-green" style="width:100%; padding:10px;">
+                📄 معاينة النسخة الرسمية أو طباعتها للأرشيف
+              </button>
+            </div>
+          </div>
+        `;
+        document.getElementById("staffOpenPaperBtn").addEventListener("click", () => openOfficialDocument(matchedDoc));
+      } else if (matchedCard) {
+        box.innerHTML = `
+          <div class="result-box result-ok">
+            <div style="font-size:1rem; font-weight:bold; margin-bottom:6px;">✅ بطاقة ذكية صالحة ونشطة</div>
+            <div>• <strong>حامل البطاقة:</strong> دهانة أسامة</div>
+            <div>• <strong>الرقم التسلسلي:</strong> ${matchedCard.serial}</div>
+            <div>• <strong>الفئة:</strong> ${matchedCard.label}</div>
+            <div>• <strong>عدد الوثائق الموثقة المرتبطة:</strong> ${docs.length} وثائق</div>
+          </div>
+        `;
       } else {
-        out.className = "verify-result res-err";
-        out.innerHTML = `❌ <strong>تعذر التحقق:</strong> المعرّف المدخل غير مسجل أو منتهي الصلاحية.`;
+        box.innerHTML = `
+          <div class="result-box result-err">
+            ❌ <strong>تنبيه للموظف:</strong> لم يتم العثور على وثيقة أو بطاقة مطابقة للمعرّف المدخل.
+          </div>
+        `;
       }
     }
 
-    document.getElementById("runVerifyBtn").addEventListener("click", () => {
-      verifyCode(document.getElementById("verifyCodeInput").value);
+    document.getElementById("staffVerifyBtn").addEventListener("click", () => {
+      runStaffCheck(document.getElementById("staffSearchInput").value);
     });
 
-    document.getElementById("fillSampleVerifyBtn").addEventListener("click", () => {
-      const sample = docs[0].id;
-      document.getElementById("verifyCodeInput").value = sample;
-      verifyCode(sample);
+    document.querySelectorAll(".quick-check").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const code = btn.dataset.code;
+        document.getElementById("staffSearchInput").value = code;
+        runStaffCheck(code);
+      });
     });
   </script>
 </body>
