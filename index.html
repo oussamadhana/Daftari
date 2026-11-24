@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>دفتري الرقمي | 15 خدمة</title>
+  <title>دفتري الرقمي | 8 وظائف</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, Tahoma, sans-serif; }
     body { background: #081222; color: #f8fafc; padding: 12px; display: flex; justify-content: center; min-height: 100vh; }
-    .app { width: 100%; max-width: 490px; }
+    .app { width: 100%; max-width: 480px; }
     .hidden { display: none !important; }
     .card { background: #10203a; border: 1px solid #22395e; border-radius: 16px; padding: 14px; margin-bottom: 11px; }
     h1, h2, h3 { margin-bottom: 6px; }
@@ -20,14 +20,12 @@
     .btn-green { background: #16a34a; color: #fff; }
     .btn-red { background: #dc2626; color: #fff; }
     .btn-gray { background: #1a2c47; color: #e2e8f0; border: 1px solid #2d466e; }
-    .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px; }
-    .tab { background: #10203a; color: #94a3b8; border: 1px solid #22395e; padding: 8px 4px; border-radius: 10px; font-size: 0.75rem; }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+    .tab { background: #10203a; color: #94a3b8; border: 1px solid #22395e; padding: 8px 4px; border-radius: 10px; font-size: 0.78rem; }
     .tab.active { background: #2563eb; color: #fff; }
     .doc { background: #091426; border: 1px solid #1e3559; border-radius: 12px; padding: 11px; margin-bottom: 9px; }
     .doc-title { font-weight: bold; font-size: 0.9rem; }
     .doc-sub { color: #94a3b8; font-size: 0.74rem; margin: 3px 0 8px; }
-    .badge { display: inline-block; background: rgba(34,197,94,0.15); color: #86efac; padding: 2px 7px; border-radius: 999px; font-size: 0.7rem; }
-    .badge-w { background: rgba(245,158,11,0.18); color: #fcd34d; }
     .link-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: #091426; border: 1px solid #1e3559; border-radius: 11px; padding: 10px; margin-bottom: 8px; }
     .link-row a { text-decoration: none; }
     .paper { background: #fffef9; color: #111; border: 4px double #7f1d1d; padding: 15px; border-radius: 6px; line-height: 1.7; font-size: 0.86rem; }
@@ -44,79 +42,68 @@
 <body>
   <div class="app">
 
-    <!-- شاشة الدخول والاختيار بين المواطن والموظف -->
-    <div id="authScreen" class="card" style="text-align:center; margin-top:20px;">
+    <!-- 1. شاشة الدخول والفصل بين المواطن والموظف -->
+    <div id="authScreen" class="card" style="text-align:center; margin-top:22px;">
       <h1>دفتري الرقمي</h1>
-      <p class="muted">محفظة رقمية وبطاقة ذكية بـ 15 خدمة — فضاء مستقل للمواطن وفضاء للموظف</p>
+      <p class="muted">نسخة مركّزة بـ 8 وظائف أساسية — فضاء مستقل للمواطن وفضاء للموظف</p>
 
       <div class="row" style="margin:12px 0;">
-        <button id="roleUser" class="btn-blue" style="flex:1;">👤 فضاء المواطن (1234)</button>
-        <button id="roleStaff" class="btn-gray" style="flex:1;">🏛️ فضاء الموظف (0000)</button>
+        <button id="roleUser" type="button" class="btn-blue" style="flex:1;">👤 فضاء المواطن (1234)</button>
+        <button id="roleStaff" type="button" class="btn-gray" style="flex:1;">🏛️ فضاء الموظف (0000)</button>
       </div>
 
       <input id="pinInput" type="password" value="1234" style="text-align:center; letter-spacing:4px;" />
-      <button id="loginBtn" class="btn-blue" style="width:100%; padding:11px;">دخول</button>
+      <button id="loginBtn" type="button" class="btn-blue" style="width:100%; padding:11px;">دخول</button>
     </div>
 
-    <!-- واجهة المواطن / الشعب -->
+    <!-- فضاء المواطن -->
     <div id="userScreen" class="hidden">
       <div class="card">
         <div class="row" style="justify-content:space-between; align-items:center;">
           <div>
-            <h2 id="uTitle">👤 فضاء المواطن</h2>
-            <div class="muted">دهانة أسامة • هوية رقمية موحدة • وضع بدون إنترنت نشط</div>
+            <h2>👤 فضاء المواطن</h2>
+            <div class="muted">دهانة أسامة • هوية رقمية موحدة</div>
           </div>
-          <div class="row">
-            <button id="langBtn" class="btn-gray">AR / FR</button>
-            <button class="btn-red logout-btn">خروج</button>
-          </div>
-        </div>
-        <div class="row" style="margin-top:10px; justify-content:space-between; align-items:center;">
-          <span id="cardStatus" class="badge">البطاقة نشطة (G-74129)</span>
-          <button id="freezeBtn" class="btn-red">🚨 إيقاف فوري (فقدان)</button>
+          <button type="button" class="btn-red logout-btn">خروج</button>
         </div>
       </div>
 
       <div class="tabs">
-        <button class="tab active" data-t="tDocs">📁 الوثائق</button>
-        <button class="tab" data-t="tShare">🔐 المشاركة</button>
-        <button class="tab" data-t="tGov">🌐 روابط الدولة</button>
-        <button class="tab" data-t="tLog">📜 السجل والهوية</button>
+        <button type="button" class="tab active" data-t="tWallet">📁 المحفظة</button>
+        <button type="button" class="tab" data-t="tGov">🌐 روابط الدولة</button>
+        <button type="button" class="tab" data-t="tLog">📜 السجل</button>
       </div>
 
-      <!-- تبويب الوثائق (تصنيف + صلاحية + قفل خصوصية + طباعة) -->
-      <div id="tDocs" class="card u-pane">
+      <!-- 2 + 3 + 4 + 5: المحفظة + إضافة + طباعة + مشاركة مؤقتة -->
+      <div id="tWallet" class="card u-pane">
         <div class="row" style="justify-content:space-between; align-items:center; margin-bottom:8px;">
           <h3 style="margin:0;">محفظة الوثائق</h3>
-          <button id="openAdd" class="btn-blue">+ إضافة</button>
+          <button id="openAdd" type="button" class="btn-blue">+ إضافة</button>
         </div>
+
         <div class="row" style="margin-bottom:10px;">
-          <button class="btn-blue cat-b" data-c="all">الكل</button>
-          <button class="btn-gray cat-b" data-c="شخصية">شخصية</button>
-          <button class="btn-gray cat-b" data-c="جامعية">جامعية</button>
-          <button class="btn-gray cat-b" data-c="إدارية">إدارية</button>
+          <button type="button" class="btn-blue cat-b" data-c="all">الكل</button>
+          <button type="button" class="btn-gray cat-b" data-c="شخصية">شخصية</button>
+          <button type="button" class="btn-gray cat-b" data-c="جامعية">جامعية</button>
+          <button type="button" class="btn-gray cat-b" data-c="إدارية">إدارية</button>
         </div>
+
         <div id="docsBox"></div>
-      </div>
 
-      <!-- تبويب المشاركة المحدودة والملخص السريع -->
-      <div id="tShare" class="card u-pane hidden">
-        <h3>مشاركة آمنة ومؤقتة وملخص سريع</h3>
-        <p class="muted">شارك ملخصاً أو رمزاً صالحاً لمرة واحدة لمدة 5 دقائق (عرض فقط دون نسخ أو حفظ خارجي)</p>
-        <select id="shareSelect"></select>
-        <div class="row" style="margin-top:6px;">
-          <button id="genTempBtn" class="btn-gold" style="flex:1;">⏳ إنشاء رمز مؤقت (لمرة واحدة)</button>
-          <button id="copySummaryBtn" class="btn-blue">📋 تصدير ملخص</button>
-        </div>
-        <div id="tempOut" class="doc" style="margin-top:10px; font-family:monospace; color:#fde047;">
-          لم يتم إنشاء رمز مشاركة بعد.
+        <div class="doc" style="margin-top:10px;">
+          <div class="doc-title">مشاركة مؤقتة لمرة واحدة</div>
+          <div class="row" style="margin-top:6px;">
+            <select id="shareSelect" style="flex:1; margin:0;"></select>
+            <button id="genTempBtn" type="button" class="btn-gold">توليد رمز</button>
+          </div>
+          <div id="tempOut" class="muted" style="margin-top:6px; font-family:monospace; color:#fde047;"></div>
         </div>
       </div>
 
-      <!-- تبويب روابط الدولة الرسمية لاستخراج الوثائق -->
+      <!-- 6: روابط رسمية لاستخراج وثائق الدولة -->
       <div id="tGov" class="card u-pane hidden">
-        <h3>🌐 روابط رسمية لاستخراج وثائق الدولة</h3>
-        <p class="muted">استخرج وثيقتك من الموقع الرسمي للدولة ثم أضفها في محفظتك</p>
+        <h3>روابط رسمية لاستخراج وثائق الدولة</h3>
+        <p class="muted">استخرج وثيقتك من المنصة الرسمية ثم أضفها في محفظتك</p>
 
         <div class="link-row">
           <div>
@@ -141,28 +128,20 @@
           </div>
           <a href="https://elhanaa.cnas.dz" target="_blank" class="btn-blue">فتح الموقع</a>
         </div>
-
-        <div class="link-row">
-          <div>
-            <strong>الخدمات الجامعية (PROGRES)</strong>
-            <div class="muted">التعليم العالي</div>
-          </div>
-          <a href="https://progres.mesrs.dz" target="_blank" class="btn-blue">فتح الموقع</a>
-        </div>
       </div>
 
-      <!-- تبويب الهوية الموحدة وسجل التحقق والمعاملات -->
+      <!-- 7: الهوية الموحدة وسجل التحقق والمعاملات -->
       <div id="tLog" class="card u-pane hidden">
-        <h3>🪪 الهوية الرقمية الموحدة</h3>
+        <h3>الهوية الرقمية الموحدة</h3>
         <p class="muted" style="margin-bottom:10px;">
-          الاسم: دهانة أسامة • الميلاد: 24 جوان 2004 (باتنة) • الصفة: طالب ماستر 2 قانون أعمال ومسيّر مؤسسة • المعرّف: DZ-BATNA-74129
+          الاسم: دهانة أسامة • الميلاد: 24 جوان 2004 (باتنة) • الصفة: طالب ماستر 2 قانون أعمال ومسيّر مؤسسة
         </p>
-        <h3>📜 سجل التحقق والمعاملات</h3>
+        <h3>سجل التحقق والمعاملات</h3>
         <div id="logsBox" class="muted"></div>
       </div>
     </div>
 
-    <!-- واجهة الموظف / الإدارة -->
+    <!-- 8: فضاء الموظف والتحقق وNFC -->
     <div id="staffScreen" class="hidden">
       <div class="card">
         <div class="row" style="justify-content:space-between; align-items:center;">
@@ -170,7 +149,7 @@
             <h2>🏛️ فضاء الموظف</h2>
             <div class="muted">فحص الوثائق والبطاقات وطباعة نسخة للأرشيف</div>
           </div>
-          <button class="btn-red logout-btn">خروج</button>
+          <button type="button" class="btn-red logout-btn">خروج</button>
         </div>
       </div>
 
@@ -178,13 +157,8 @@
         <h3>التحقق الفوري</h3>
         <input id="staffCode" type="text" placeholder="اكتب: DOC-BAC-2021 أو DOC-204 أو G-74129" />
         <div class="row">
-          <button id="verifyBtn" class="btn-gold" style="flex:1;">🔍 تحقق</button>
-          <button id="nfcBtn" class="btn-blue">📶 تمرير بطاقة NFC</button>
-        </div>
-        <div class="row" style="margin-top:8px;">
-          <button class="btn-gray q-btn" data-q="DOC-BAC-2021">البكالوريا</button>
-          <button class="btn-gray q-btn" data-q="DOC-204">الماستر</button>
-          <button class="btn-gray q-btn" data-q="DOC-101">الميلاد</button>
+          <button id="verifyBtn" type="button" class="btn-gold" style="flex:1;">🔍 تحقق</button>
+          <button id="nfcBtn" type="button" class="btn-blue">📶 تمرير بطاقة NFC</button>
         </div>
         <div id="staffResult" style="margin-top:12px; font-size:0.86rem; line-height:1.6;"></div>
       </div>
@@ -200,4 +174,227 @@
       <input id="inIssuer" type="text" placeholder="الجهة المصدرة" />
       <select id="inCat">
         <option value="شخصية">شخصية</option>
-        
+        <option value="جامعية">جامعية</option>
+        <option value="إدارية">إدارية</option>
+      </select>
+      <div class="row" style="margin-top:6px;">
+        <button id="saveDoc" type="button" class="btn-blue" style="flex:1;">حفظ</button>
+        <button id="closeAdd" type="button" class="btn-gray">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة معاينة وطباعة النسخة الرسمية -->
+  <div id="paperModal" class="modal hidden">
+    <div class="modal-box">
+      <div class="no-print row" style="justify-content:space-between; margin-bottom:8px;">
+        <strong>النسخة الرسمية</strong>
+        <button id="closePaper" type="button" class="btn-gray">إغلاق</button>
+      </div>
+      <div id="printArea"></div>
+      <div class="no-print" style="margin-top:10px;">
+        <button type="button" onclick="window.print()" class="btn-green" style="width:100%;">🖨️ طباعة / حفظ PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var role = "user";
+      var cat = "all";
+
+      var docs = [
+        { id: "DOC-BAC-2021", cat: "جامعية", title: "شهادة البكالوريا - دورة 2021", issuer: "وزارة التربية الوطنية", holder: "دهانة أسامة", info: "لغات أجنبية • دورة 2021" },
+        { id: "DOC-204", cat: "جامعية", title: "شهادة التسجيل - ماستر 2 قانون أعمال", issuer: "جامعة باتنة 1", holder: "دهانة أسامة", info: "تخصص قانون الأعمال" },
+        { id: "DOC-101", cat: "شخصية", title: "مستخرج شهادة الميلاد", issuer: "بلدية باتنة", holder: "دهانة أسامة", info: "المولود في 24 جوان 2004 بـ باتنة" },
+        { id: "DOC-305", cat: "إدارية", title: "شهادة الإقامة", issuer: "بلدية باتنة", holder: "دهانة أسامة", info: "بلدية باتنة" }
+      ];
+
+      var logs = [
+        "اليوم • معاينة شهادة البكالوريا (المواطن)",
+        "أمس • فحص شهادة التسجيل الجامعي (الإدارة)"
+      ];
+
+      function pushLog(msg) {
+        logs.unshift("الآن • " + msg);
+        renderLogs();
+      }
+
+      function renderLogs() {
+        var box = document.getElementById("logsBox");
+        if (box) {
+          box.innerHTML = logs.map(function (x) {
+            return "<div style='padding:5px 0; border-bottom:1px solid #1e3559;'>" + x + "</div>";
+          }).join("");
+        }
+      }
+
+      function renderShareSelect() {
+        var sel = document.getElementById("shareSelect");
+        if (sel) {
+          sel.innerHTML = docs.map(function (d) {
+            return "<option value='" + d.id + "'>" + d.title + " (" + d.id + ")</option>";
+          }).join("");
+        }
+      }
+
+      function openPaper(d, actor) {
+        document.getElementById("printArea").innerHTML =
+          "<div class='paper'>" +
+            "<div style='text-align:center; font-weight:bold;'>الجمهورية الجزائرية الديمقراطية الشعبية</div>" +
+            "<div style='text-align:center; color:#991b1b; font-size:1.1rem; font-weight:900; margin:7px 0;'>" + d.title + "</div>" +
+            "<div><strong>الجهة:</strong> " + d.issuer + "</div>" +
+            "<div><strong>المعني:</strong> " + d.holder + "</div>" +
+            "<div><strong>التفاصيل:</strong> " + d.info + "</div>" +
+            "<div><strong>المعرّف:</strong> " + d.id + "</div>" +
+            "<div style='margin-top:10px; border:1px solid #15803d; color:#15803d; padding:6px; border-radius:6px; font-size:0.76rem; font-weight:bold;'>✓ مستخرج رقمي موثق — دفتري الرقمي</div>" +
+          "</div>";
+        document.getElementById("paperModal").classList.remove("hidden");
+        pushLog("معاينة/طباعة " + d.id + " (" + (actor || "المواطن") + ")");
+      }
+
+      function renderDocs() {
+        var box = document.getElementById("docsBox");
+        if (!box) return;
+        box.innerHTML = "";
+        var list = cat === "all" ? docs : docs.filter(function (d) { return d.cat === cat; });
+        list.forEach(function (d) {
+          var el = document.createElement("div");
+          el.className = "doc";
+          el.innerHTML =
+            "<div class='doc-title'>" + d.title + "</div>" +
+            "<div class='doc-sub'>" + d.issuer + " • (" + d.id + ") • " + d.cat + "</div>" +
+            "<button type='button' class='btn-green p-btn'>🖨️ طباعة / معاينة</button>";
+          el.querySelector(".p-btn").addEventListener("click", function () {
+            openPaper(d, "المواطن");
+          });
+          box.appendChild(el);
+        });
+      }
+
+      document.getElementById("roleUser").addEventListener("click", function () {
+        role = "user";
+        this.className = "btn-blue";
+        document.getElementById("roleStaff").className = "btn-gray";
+        document.getElementById("pinInput").value = "1234";
+      });
+
+      document.getElementById("roleStaff").addEventListener("click", function () {
+        role = "staff";
+        this.className = "btn-gold";
+        document.getElementById("roleUser").className = "btn-gray";
+        document.getElementById("pinInput").value = "0000";
+      });
+
+      document.getElementById("loginBtn").addEventListener("click", function () {
+        var p = document.getElementById("pinInput").value.trim();
+        if (role === "user" && (p === "1234" || p === "")) {
+          document.getElementById("authScreen").classList.add("hidden");
+          document.getElementById("userScreen").classList.remove("hidden");
+          renderDocs();
+          renderShareSelect();
+          renderLogs();
+        } else if (role === "staff" && (p === "0000" || p === "")) {
+          document.getElementById("authScreen").classList.add("hidden");
+          document.getElementById("staffScreen").classList.remove("hidden");
+        } else {
+          alert("الرمز الصحيح للمواطن هو 1234 وللموظف هو 0000");
+        }
+      });
+
+      document.querySelectorAll(".logout-btn").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.getElementById("userScreen").classList.add("hidden");
+          document.getElementById("staffScreen").classList.add("hidden");
+          document.getElementById("authScreen").classList.remove("hidden");
+        });
+      });
+
+      document.querySelectorAll(".tab").forEach(function (t) {
+        t.addEventListener("click", function () {
+          document.querySelectorAll(".tab").forEach(function (x) { x.classList.remove("active"); });
+          document.querySelectorAll(".u-pane").forEach(function (p) { p.classList.add("hidden"); });
+          this.classList.add("active");
+          document.getElementById(this.dataset.t).classList.remove("hidden");
+        });
+      });
+
+      document.querySelectorAll(".cat-b").forEach(function (b) {
+        b.addEventListener("click", function () {
+          cat = this.dataset.c;
+          document.querySelectorAll(".cat-b").forEach(function (x) { x.className = "btn-gray cat-b"; });
+          this.className = "btn-blue cat-b";
+          renderDocs();
+        });
+      });
+
+      document.getElementById("closePaper").addEventListener("click", function () {
+        document.getElementById("paperModal").classList.add("hidden");
+      });
+
+      document.getElementById("genTempBtn").addEventListener("click", function () {
+        var id = document.getElementById("shareSelect").value;
+        var code = "ONE-" + id + "-" + Math.floor(1000 + Math.random() * 8999);
+        document.getElementById("tempOut").textContent = "رمز مؤقت لمرة واحدة (عرض فقط): " + code;
+        pushLog("إنشاء مشاركة مؤقتة لـ " + id);
+      });
+
+      document.getElementById("openAdd").addEventListener("click", function () {
+        document.getElementById("addModal").classList.remove("hidden");
+      });
+
+      document.getElementById("closeAdd").addEventListener("click", function () {
+        document.getElementById("addModal").classList.add("hidden");
+      });
+
+      document.getElementById("saveDoc").addEventListener("click", function () {
+        var t = document.getElementById("inTitle").value.trim();
+        if (!t) return;
+        docs.unshift({
+          id: "DOC-" + Math.floor(500 + Math.random() * 499),
+          cat: document.getElementById("inCat").value,
+          title: t,
+          issuer: document.getElementById("inIssuer").value.trim() || "جهة رسمية",
+          holder: "دهانة أسامة",
+          info: "وثيقة مضافة في المحفظة"
+        });
+        document.getElementById("inTitle").value = "";
+        document.getElementById("inIssuer").value = "";
+        document.getElementById("addModal").classList.add("hidden");
+        renderDocs();
+        renderShareSelect();
+        pushLog("إضافة وثيقة جديدة: " + t);
+      });
+
+      function verifyStaff(raw) {
+        var q = raw.trim().toUpperCase();
+        var out = document.getElementById("staffResult");
+        var d = docs.find(function (x) { return x.id.toUpperCase() === q; });
+        if (d) {
+          pushLog("فحص " + d.id + " (موظف الإدارة)");
+          out.innerHTML =
+            "<div style='color:#86efac;'>✅ وثيقة أصلية: <strong>" + d.title + "</strong> (" + d.holder + ")</div>" +
+            "<button type='button' id='staffPrintBtn' class='btn-green' style='margin-top:8px;'>🖨️ طباعة نسخة للأرشيف</button>";
+          document.getElementById("staffPrintBtn").addEventListener("click", function () {
+            openPaper(d, "موظف الإدارة");
+          });
+        } else if (q === "G-74129") {
+          pushLog("قراءة بطاقة NFC (موظف الإدارة)");
+          out.innerHTML = "<div style='color:#86efac;'>✅ بطاقة ذكية سارية: <strong>دهانة أسامة</strong> (G-74129)</div>";
+        } else {
+          out.innerHTML = "<div style='color:#fca5a5;'>❌ لم يتم العثور على نتيجة مطابقة.</div>";
+        }
+      }
+
+      document.getElementById("verifyBtn").addEventListener("click", function () {
+        verifyStaff(document.getElementById("staffCode").value);
+      });
+
+      document.getElementById("nfcBtn").addEventListener("click", function () {
+        document.getElementById("staffCode").value = "G-74129";
+        verifyStaff("G-74129");
+      });
+    })();
+  </script>
+</body>
+</html>
